@@ -10,28 +10,34 @@
 <body>
      <h4>Utente loggato: ${logged_user}</h4>
      
-     <form name="login credentials" method="GET">
-           Inserisci attività o promemoria:<br>
-           <input type="text" name="todo_phrase" size="40px"> 
-           <input type="submit" name="add_phrase" value="inserisci" formaction="insert">
+     <form name="insert activity" method="GET">
+           <div>Inserisci attività o promemoria:</div>
+           <div><input type="text" name="todo_phrase" size="40px"> 
+           <input type="submit" value="inserisci" formaction="insert"></div>
      </form>
      
      <p>Numero di frasi inserite: ${numero_frasi}</p>
-     
-           <c:forEach items = "${activity_map}" var="activity">
-           <input type="checkbox" name="check"> ${activity}<br>
-           </c:forEach>
+   
+      <form name="check activity" method="GET">
+        <c:forEach items = "${activity_map }" var="activity">
+              <div>
+                <c:choose> 
+                    <c:when test="${activity.value.checked}">
+                         <input type="checkbox" name="${activity.key}" checked>
+                    </c:when>
+                    <c:otherwise>
+                         <input type="checkbox" name="${activity.key}">
+                    </c:otherwise>
+                </c:choose>
+                    ${activity.value.description}                 
+                    <a href="/webAppToDo/remove?code_to_remove=${activity.key}">Elimina</a>
+               </div>
+        </c:forEach> <br>
+        <div> <input type="submit" value="completa i selezionati" formaction="/webAppToDo/complete"> </div>
+     </form>      
            
      <form name="logout" method="GET"> 
-           <p> Inserisci codice dell'attività che vuoi rimuovere<br>
-               <input type="text" name="code_remove" size="20px"> 
-               <input type="submit" name="code_to_remove" value="rimuovi" formaction="remove"> </p> 
+         <p> <input type="submit" value="logout" formaction="logout"> </p> 
      </form>
-           
-     <form name="logout" method="GET"> 
-           <p> <input type="submit" name="logout" value="logout" formaction="logout"> </p> 
-     </form>
-     
-
 </body>
 </html>
